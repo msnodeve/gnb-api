@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-import static javax.persistence.FetchType.LAZY;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,7 +19,7 @@ public class Detail {
     private Long id;
 
     @JsonBackReference
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "title_id")
     private Title title;
 

@@ -23,16 +23,18 @@ public class Title {
     private Long id;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "title")
+    @OneToMany(mappedBy = "title", fetch = LAZY)
     private List<Detail> details = new ArrayList<>();
 
     @JsonBackReference
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "headline_id")
     private HeadLine headLine;
 
     @Column(name = "title", columnDefinition = "varchar(128)", nullable = false)
     private String name;
+    @Column(columnDefinition = "varchar(128)")
+    private String desktopWidth;
 
     private int order;
     private int changePointer;

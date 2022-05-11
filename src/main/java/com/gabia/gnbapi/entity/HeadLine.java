@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,7 +22,7 @@ public class HeadLine {
     private Long id;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "headLine")
+    @OneToMany(mappedBy = "headLine", fetch = LAZY)
     private List<Title> titles = new ArrayList<>();
 
     @Column(name = "title", columnDefinition = "varchar(128)", nullable = false)
