@@ -1,12 +1,15 @@
 package com.gabia.gnbapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -18,6 +21,10 @@ public class Title {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "title")
+    private List<Detail> details = new ArrayList<>();
 
     @JsonBackReference
     @ManyToOne(fetch = LAZY)
