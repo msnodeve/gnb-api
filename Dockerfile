@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM adoptopenjdk/openjdk13:alpine-jre
 
 ARG JAR_FILE=./app.jar
 

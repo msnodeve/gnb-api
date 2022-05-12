@@ -1,0 +1,8 @@
+hiworks:
+  kms:
+    engine-name: gabia
+    property-map:
+      "[mysql/oauth2provider]":
+        hostname: "gabia.mysql.hostname"
+        password: "gabia.mysql.password"
+        username: "gabia.mysql.username"
