@@ -1,6 +1,6 @@
 FROM adoptopenjdk/openjdk11:alpine-jre
 
-ARG JAR_FILE=./gnb-api-1.0.0.jar
+ARG JAR_FILE=./app.jar
 
 COPY ${JAR_FILE} app.jar
 
