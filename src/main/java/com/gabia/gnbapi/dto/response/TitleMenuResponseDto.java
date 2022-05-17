@@ -13,27 +13,27 @@ import java.util.List;
 @Getter
 public class TitleMenuResponseDto {
     @ApiModelProperty(value = "고유 ID")
-    private long id;
+    private long middleId;
     @ApiModelProperty(value = "메뉴 이름")
-    private String title;
+    private String middleTitle;
     @ApiModelProperty(value = "메뉴 순서")
-    private int order;
+    private int middleOrder;
     @ApiModelProperty(value = "라인 변경 기준점")
     private int gnbChangePoint;
     @ApiModelProperty(value = "PC 기준 메뉴 길이")
     private String desktopWidth;
     @ApiModelProperty(value = "Bottom 메뉴 리스트 객체")
-    private List<DetailMenuResponseDto> bottomClasses = new ArrayList<>();
+    private List<DetailMenuResponseDto> bottomMenus = new ArrayList<>();
 
     public TitleMenuResponseDto(Title title) {
-        this.id = title.getId();
-        this.title = title.getName();
-        this.order = title.getOrder();
+        this.middleId = title.getId();
+        this.middleTitle = title.getName();
+        this.middleOrder = title.getOrder();
         this.gnbChangePoint = title.getChangePointer();
         this.desktopWidth = title.getDesktopWidth();
 
         for (Detail detail : title.getDetails()) {
-            this.bottomClasses.add(new DetailMenuResponseDto(detail));
+            this.bottomMenus.add(new DetailMenuResponseDto(detail));
         }
     }
 }

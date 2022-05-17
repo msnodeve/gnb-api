@@ -10,9 +10,9 @@ import lombok.Getter;
 @Getter
 public class DetailMenuResponseDto {
     @ApiModelProperty(value = "고유 ID")
-    private long id;
+    private long bottomId;
     @ApiModelProperty(value = "메뉴 이름")
-    private String title;
+    private String bottomTitle;
     @ApiModelProperty(value = "메뉴 뱃지 상태")
     private BadgeStatus badge;
     @ApiModelProperty(value = "이동 링크")
@@ -20,7 +20,7 @@ public class DetailMenuResponseDto {
     @ApiModelProperty(value = "아이콘 주소")
     private String icon;
     @ApiModelProperty(value = "메뉴 주소")
-    private int order;
+    private int bottomOrder;
     @ApiModelProperty(value = "새창으로 열지에 대한 여부")
     private boolean isTargetBlank;
     @ApiModelProperty(value = "사이트맵에 보일지에 대한 여부")
@@ -29,12 +29,12 @@ public class DetailMenuResponseDto {
     private boolean isMobileShow;
 
     public DetailMenuResponseDto(Detail detail) {
-        this.id = detail.getId();
-        this.title = detail.getName();
+        this.bottomId = detail.getId();
+        this.bottomTitle = detail.getName();
         this.badge = detail.getBadge();
         this.link = detail.getLink();
         this.icon = detail.getIcon();
-        this.order = detail.getOrder();
+        this.bottomOrder = detail.getOrder();
         this.isTargetBlank = detail.isTargetBlank();
         this.isSitemapShow = detail.isSitemapShow();
         this.isMobileShow = detail.isMobileShow();

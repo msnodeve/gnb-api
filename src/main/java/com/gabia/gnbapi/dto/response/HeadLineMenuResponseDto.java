@@ -13,27 +13,33 @@ import java.util.List;
 @Getter
 public class HeadLineMenuResponseDto {
     @ApiModelProperty(value = "고유 ID")
-    private long id;
+    private long topId;
     @ApiModelProperty(value = "이름")
-    private String title;
+    private String topTitle;
     @ApiModelProperty(value = "설명")
     private String description;
     @ApiModelProperty(value = "순서")
-    private int order;
+    private int topOrder;
+    @ApiModelProperty(value = "메뉴 이름에 대한 유니크 키 이름")
+    private String titleKey;
     @ApiModelProperty(value = "서비스 링크")
     private String serviceLink;
+    @ApiModelProperty(value = "새창으로 열지에 대한 여부")
+    private boolean isTargetBlank;
     @ApiModelProperty(value = "Middle 메뉴 리스트 객체")
-    private List<TitleMenuResponseDto> midClasses = new ArrayList<>();
+    private List<TitleMenuResponseDto> middleMenus = new ArrayList<>();
 
     public HeadLineMenuResponseDto(HeadLine headLine) {
-        this.id = headLine.getId();
-        this.title = headLine.getName();
+        this.topId = headLine.getId();
+        this.topTitle = headLine.getName();
         this.description = headLine.getDescription();
-        this.order = headLine.getOrder();
+        this.topOrder = headLine.getOrder();
+        this.titleKey = headLine.getTitleKey();
         this.serviceLink = headLine.getServiceLink();
+        this.isTargetBlank = headLine.isTargetBlank();
 
         for (Title title : headLine.getTitles()) {
-            this.midClasses.add(new TitleMenuResponseDto(title));
+            this.middleMenus.add(new TitleMenuResponseDto(title));
         }
     }
 }
