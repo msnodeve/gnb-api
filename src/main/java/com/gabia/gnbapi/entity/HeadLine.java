@@ -31,6 +31,11 @@ public class HeadLine {
     private String description;
     @Column(columnDefinition = "text")
     private String serviceLink;
+    @Column(columnDefinition = "varchar(32)")
+    private String titleKey;
+
+    @Column(name = "target_blank_flag", columnDefinition = "tinyint(1)", length = 1)
+    private boolean isTargetBlank;
 
     private int order;
 
