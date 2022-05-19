@@ -37,6 +37,7 @@ public class Detail {
     @Column(name = "mobile_show_flag", columnDefinition = "tinyint(1)", length = 1)
     private boolean isMobileShow;
 
+    @Column(name = "`order`")
     private int order;
 
     @Enumerated(EnumType.STRING)

@@ -2,6 +2,7 @@ package com.gabia.gnbapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,6 +38,7 @@ public class HeadLine {
     @Column(name = "target_blank_flag", columnDefinition = "tinyint(1)", length = 1)
     private boolean isTargetBlank;
 
+    @Column(name = "`order`")
     private int order;
 
     private LocalDateTime createdAt;
@@ -53,5 +55,29 @@ public class HeadLine {
     @PreUpdate
     public void updateAt() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public HeadLine(Long id, List<Title> titles, String name, String description, String serviceLink, String titleKey, boolean isTargetBlank, int order, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
+        this.id = id;
+        this.titles = titles;
+        this.name = name;
+        this.description = description;
+        this.serviceLink = serviceLink;
+        this.titleKey = titleKey;
+        this.isTargetBlank = isTargetBlank;
+        this.order = order;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+    }
+
+    public void updateHeadLine(HeadLine headLine) {
+        this.name = headLine.getName().isEmpty() ? this.name : headLine.getName();
+        this.description = headLine.getDescription().isEmpty() ? this.description : headLine.getDescription();
+        this.serviceLink = headLine.getServiceLink().isEmpty() ? this.serviceLink : headLine.getServiceLink();
+        this.titleKey = headLine.getTitleKey().isEmpty() ? this.titleKey : headLine.getTitleKey();
+        this.isTargetBlank = headLine.isTargetBlank() == this.isTargetBlank ? this.isTargetBlank : headLine.isTargetBlank();
+        this.order = headLine.getOrder() == this.order ? this.order : headLine.getOrder();
     }
 }
