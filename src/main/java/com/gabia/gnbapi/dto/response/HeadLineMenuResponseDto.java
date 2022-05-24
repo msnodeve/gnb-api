@@ -16,8 +16,12 @@ public class HeadLineMenuResponseDto {
     private long topId;
     @ApiModelProperty(value = "이름")
     private String topTitle;
-    @ApiModelProperty(value = "설명")
-    private String description;
+    @ApiModelProperty(value = "PC 설명")
+    private String desktopDescription;
+    @ApiModelProperty(value = "Mobile 설명")
+    private String mobileDescription;
+    @ApiModelProperty(value = "Tablet 설명")
+    private String tabletDescription;
     @ApiModelProperty(value = "순서")
     private int topOrder;
     @ApiModelProperty(value = "메뉴 이름에 대한 유니크 키 이름")
@@ -32,7 +36,10 @@ public class HeadLineMenuResponseDto {
     public HeadLineMenuResponseDto(HeadLine headLine) {
         this.topId = headLine.getId();
         this.topTitle = headLine.getName();
-        this.description = headLine.getDescription();
+        this.desktopDescription = headLine.getDesktopDescription();
+        this.mobileDescription = headLine.getMobileDescription();
+        this.tabletDescription = headLine.getTabletDescription();
+
         this.topOrder = headLine.getOrder();
         this.titleKey = headLine.getTitleKey();
         this.serviceLink = headLine.getServiceLink();

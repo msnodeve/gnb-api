@@ -3,6 +3,7 @@ package com.gabia.gnbapi.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.gabia.gnbapi.entity.status.BadgeStatus;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -58,5 +59,37 @@ public class Detail {
     @PreUpdate
     public void updateAt() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public Detail(Long id, Title title, String name, String link, String icon, boolean isTargetBlank, boolean isSitemapShow, boolean isMobileShow, int order, BadgeStatus badge, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
+        this.id = id;
+        this.title = title;
+        this.name = name;
+        this.link = link;
+        this.icon = icon;
+        this.isTargetBlank = isTargetBlank;
+        this.isSitemapShow = isSitemapShow;
+        this.isMobileShow = isMobileShow;
+        this.order = order;
+        this.badge = badge;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+    }
+
+    public void updateTitle(Title title) {
+        this.title = title;
+    }
+
+    public void updateDetail(Detail detail) {
+        this.name = detail.getName().isEmpty() ? this.name : detail.getName();
+        this.link = detail.getLink().isEmpty() ? this.link : detail.getLink();
+        this.icon = detail.icon.isEmpty() ? this.icon : detail.getIcon();
+        this.isTargetBlank = detail.isTargetBlank() == this.isTargetBlank ? this.isTargetBlank : detail.isTargetBlank();
+        this.isSitemapShow = detail.isSitemapShow() == this.isSitemapShow ? this.isSitemapShow : detail.isSitemapShow();
+        this.isMobileShow = detail.isMobileShow() == this.isMobileShow ? this.isMobileShow : detail.isMobileShow();
+        this.order = detail.getOrder() == this.order ? this.order : detail.getOrder();
+        this.badge = detail.getBadge().name().isEmpty() ? this.badge : detail.getBadge();
     }
 }

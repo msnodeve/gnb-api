@@ -1,17 +1,16 @@
 package com.gabia.gnbapi.service;
 
-import com.gabia.gnbapi.dto.request.CreateMiddleMenuRequestDto;
-import com.gabia.gnbapi.dto.request.CreateTopMenuRequestDto;
-import com.gabia.gnbapi.dto.request.ModifyMiddleMenuRequestDto;
-import com.gabia.gnbapi.dto.request.ModifyTopMenuRequestDto;
+import com.gabia.gnbapi.dto.request.*;
 import com.gabia.gnbapi.dto.response.HeadLineMenuResponseDto;
+import com.gabia.gnbapi.entity.Detail;
 import com.gabia.gnbapi.entity.HeadLine;
 import com.gabia.gnbapi.entity.Title;
+import com.gabia.gnbapi.repository.DetailRepository;
 import com.gabia.gnbapi.repository.HeadLineRepository;
 import com.gabia.gnbapi.repository.TitleRepository;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +20,7 @@ import java.util.List;
 public class GlobalNavBarService {
     private final HeadLineRepository headLineRepository;
     private final TitleRepository titleRepository;
+    private final DetailRepository detailRepository;
 
     public void createTopMenu(CreateTopMenuRequestDto createTopMenuRequestDto) {
         HeadLine headLine = createTopMenuRequestDto.toHeadLineEntity();
@@ -38,7 +38,7 @@ public class GlobalNavBarService {
         return response;
     }
 
-    public void modifyTopMenu(Long topId, ModifyTopMenuRequestDto modifyTopMenuRequestDto) {
+    public void modifyTopMenu(Long topId, ModifyTopMenuRequestDto modifyTopMenuRequestDto) throws NotFoundException {
         HeadLine headLine = modifyTopMenuRequestDto.toHeadLineEntity();
         headLineRepository.updateHeadLine(topId, headLine);
     }
@@ -47,7 +47,7 @@ public class GlobalNavBarService {
         headLineRepository.deleteHeadLine(topId);
     }
 
-    public void createMiddleMenu(Long topMenuId, CreateMiddleMenuRequestDto createMiddleMenuRequestDto) {
+    public void createMiddleMenu(Long topMenuId, CreateMiddleMenuRequestDto createMiddleMenuRequestDto) throws NotFoundException {
         HeadLine headLine = headLineRepository.findById(topMenuId);
         Title title = createMiddleMenuRequestDto.toTitleEntity();
         title.updateHeadLine(headLine);
@@ -76,5 +76,47 @@ public class GlobalNavBarService {
         }
 
         titleRepository.deleteTitle(middleMenuId);
+    }
+
+    public void createBottomMenu(Long topMenuId, Long middleMenuId, CreateBottomMenuRequestDto createBottomMenuRequestDto) throws NotFoundException {
+        HeadLine headLine = headLineRepository.findById(topMenuId);
+        Title title = titleRepository.findById(middleMenuId);
+        Detail detail = createBottomMenuRequestDto.toDetailEntity();
+        detail.updateTitle(title);
+
+        detailRepository.saveDetail(detail);
+    }
+
+    public void modifyBottomMenu(Long topMenuId, Long middleMenuId, Long bottomMenuId, ModifyBottomMenuRequestDto modifyBottomMenuRequestDto) throws Exception {
+        HeadLine headLine = headLineRepository.findById(topMenuId);
+        Title title = titleRepository.findById(middleMenuId);
+        Detail detail = detailRepository.findById(bottomMenuId);
+
+        if (title.getHeadLine().getId() != headLine.getId()) {
+            throw new Exception(String.format("대분류(%s)에 중분류(%s)가 속해있지 않습니다.", topMenuId, middleMenuId));
+        }
+
+        if(detail.getTitle().getId() != title.getId()){
+            throw new Exception(String.format("중분류(%s)에 소분류(%s)가 속해있지 않습니다.", middleMenuId, bottomMenuId));
+        }
+
+        Detail updateForDetail = modifyBottomMenuRequestDto.toDetailEntity();
+        detailRepository.updateDetail(bottomMenuId, updateForDetail);
+    }
+
+    public void removeBottomMenu(Long topMenuId, Long middleMenuId, Long bottomMenuId) throws Exception {
+        HeadLine headLine = headLineRepository.findById(topMenuId);
+        Title title = titleRepository.findById(middleMenuId);
+        Detail detail = detailRepository.findById(bottomMenuId);
+
+        if (title.getHeadLine().getId() != headLine.getId()) {
+            throw new Exception(String.format("대분류(%s)에 중분류(%s)가 속해있지 않습니다.", topMenuId, middleMenuId));
+        }
+
+        if(detail.getTitle().getId() != title.getId()){
+            throw new Exception(String.format("중분류(%s)에 소분류(%s)가 속해있지 않습니다.", middleMenuId, bottomMenuId));
+        }
+
+        detailRepository.deleteDetail(bottomMenuId);
     }
 }

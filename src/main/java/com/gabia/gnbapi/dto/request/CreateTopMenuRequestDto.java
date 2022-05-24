@@ -10,8 +10,12 @@ import lombok.Getter;
 public class CreateTopMenuRequestDto {
     @ApiModelProperty(value = "메뉴 이름")
     private String topTitle;
-    @ApiModelProperty(value = "메뉴 설명")
-    private String description;
+    @ApiModelProperty(value = "PC 메뉴 설명")
+    private String desktopDescription;
+    @ApiModelProperty(value = "Mobile 메뉴 설명")
+    private String mobileDescription;
+    @ApiModelProperty(value = "Tablet 메뉴 설명")
+    private String tabletDescription;
     @ApiModelProperty(value = "서비스 링크")
     private String serviceLink;
     @ApiModelProperty(value = "메뉴 이름에 대한 유니크 값")
@@ -24,7 +28,9 @@ public class CreateTopMenuRequestDto {
     public HeadLine toHeadLineEntity() {
         return HeadLine.builder()
                 .name(this.topTitle)
-                .description(this.description)
+                .desktopDescription(this.desktopDescription)
+                .mobileDescription(this.mobileDescription)
+                .tabletDescription(this.tabletDescription)
                 .serviceLink(this.serviceLink)
                 .titleKey(this.titleKey)
                 .isTargetBlank(this.targetBlank)

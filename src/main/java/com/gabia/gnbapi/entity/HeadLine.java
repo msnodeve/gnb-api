@@ -28,8 +28,12 @@ public class HeadLine {
 
     @Column(name = "title", columnDefinition = "varchar(128)", nullable = false)
     private String name;
-    @Column(columnDefinition = "varchar(256)", nullable = false)
-    private String description;
+    @Column(columnDefinition = "text", nullable = false)
+    private String desktopDescription;
+    @Column(columnDefinition = "text", nullable = false)
+    private String mobileDescription;
+    @Column(columnDefinition = "text", nullable = false)
+    private String tabletDescription;
     @Column(columnDefinition = "text")
     private String serviceLink;
     @Column(columnDefinition = "varchar(32)")
@@ -58,11 +62,13 @@ public class HeadLine {
     }
 
     @Builder
-    public HeadLine(Long id, List<Title> titles, String name, String description, String serviceLink, String titleKey, boolean isTargetBlank, int order, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
+    public HeadLine(Long id, List<Title> titles, String name, String desktopDescription, String mobileDescription, String tabletDescription, String serviceLink, String titleKey, boolean isTargetBlank, int order, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
         this.id = id;
         this.titles = titles;
         this.name = name;
-        this.description = description;
+        this.desktopDescription = desktopDescription;
+        this.mobileDescription = mobileDescription;
+        this.tabletDescription = tabletDescription;
         this.serviceLink = serviceLink;
         this.titleKey = titleKey;
         this.isTargetBlank = isTargetBlank;
@@ -74,7 +80,7 @@ public class HeadLine {
 
     public void updateHeadLine(HeadLine headLine) {
         this.name = headLine.getName().isEmpty() ? this.name : headLine.getName();
-        this.description = headLine.getDescription().isEmpty() ? this.description : headLine.getDescription();
+        this.desktopDescription = headLine.getDesktopDescription().isEmpty() ? this.desktopDescription : headLine.getDesktopDescription();
         this.serviceLink = headLine.getServiceLink().isEmpty() ? this.serviceLink : headLine.getServiceLink();
         this.titleKey = headLine.getTitleKey().isEmpty() ? this.titleKey : headLine.getTitleKey();
         this.isTargetBlank = headLine.isTargetBlank() == this.isTargetBlank ? this.isTargetBlank : headLine.isTargetBlank();
