@@ -14,4 +14,20 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --lower_case_table_names=1
     volumes:
-      - /Users/mskim/Desktop/groot/mounted/mysql:/var/lib/mysql
+      - ./init/:/docker-entrypoint-initdb.d/
+    networks:
+      - default
+      - our_net
+
+  gnb-api:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+      - our_net
+
+networks:
+  our_net:
+    driver: bridge
