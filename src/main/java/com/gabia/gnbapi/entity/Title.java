@@ -3,6 +3,7 @@ package com.gabia.gnbapi.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,6 +37,7 @@ public class Title {
     @Column(columnDefinition = "varchar(128)")
     private String desktopWidth;
 
+    @Column(name = "`order`")
     private int order;
     private int changePointer;
 
@@ -53,5 +55,30 @@ public class Title {
     @PreUpdate
     public void updateAt() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    @Builder
+    public Title(Long id, List<Detail> details, HeadLine headLine, String name, String desktopWidth, int order, int changePointer, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime deletedAt) {
+        this.id = id;
+        this.details = details;
+        this.headLine = headLine;
+        this.name = name;
+        this.desktopWidth = desktopWidth;
+        this.order = order;
+        this.changePointer = changePointer;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
+    }
+
+    public void updateHeadLine(HeadLine headLine) {
+        this.headLine = headLine;
+    }
+
+    public void updateTitle(Title title) {
+        this.name = title.getName().isEmpty() ? this.name : title.getName();
+        this.desktopWidth = title.getDesktopWidth().isEmpty() ? this.desktopWidth : title.getDesktopWidth();
+        this.changePointer = title.getChangePointer() == this.changePointer ? this.changePointer : title.getChangePointer();
+        this.order = title.getOrder() == this.order ? this.order : title.getOrder();
     }
 }

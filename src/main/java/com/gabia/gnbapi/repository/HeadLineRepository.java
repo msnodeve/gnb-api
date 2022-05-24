@@ -3,6 +3,7 @@ package com.gabia.gnbapi.repository;
 import com.gabia.gnbapi.entity.HeadLine;
 import com.gabia.gnbapi.entity.QHeadLine;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import javassist.NotFoundException;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 import static com.gabia.gnbapi.entity.QDetail.detail;
 import static com.gabia.gnbapi.entity.QHeadLine.headLine;
@@ -31,8 +33,8 @@ public class HeadLineRepository extends QuerydslRepositorySupport {
 
     // 대분류 INSERT
     @Transactional
-    public void saveHeadLine(HeadLine createForHeadLineEntity) {
-        entityManager.persist(createForHeadLineEntity);
+    public void saveHeadLine(HeadLine headLine) {
+        entityManager.persist(headLine);
     }
 
     // 대분류-중분류-소분류 ALL SELECT
@@ -60,13 +62,8 @@ public class HeadLineRepository extends QuerydslRepositorySupport {
     // 대분류 UPDATE
     @Modifying
     @Transactional
-    public void updateHeadLine(Long id, HeadLine updateForHeadLineEntity) {
-        HeadLine headLine = jpaQueryFactory
-                .select(QHeadLine.headLine)
-                .from(QHeadLine.headLine)
-                .where(QHeadLine.headLine.id.eq(id))
-                .fetchOne();
-
+    public void updateHeadLine(Long id, HeadLine updateForHeadLineEntity) throws NotFoundException {
+        HeadLine headLine = findById(id);
         headLine.updateHeadLine(updateForHeadLineEntity);
     }
 
@@ -77,5 +74,17 @@ public class HeadLineRepository extends QuerydslRepositorySupport {
                 .delete(headLine)
                 .where(headLine.id.eq(id))
                 .execute();
+    }
+
+    public HeadLine findById(Long id) throws NotFoundException {
+        HeadLine headLine = jpaQueryFactory
+                .select(QHeadLine.headLine)
+                .from(QHeadLine.headLine)
+                .where(QHeadLine.headLine.id.eq(id))
+                .fetchOne();
+
+        Optional<HeadLine> findHeadLine = Optional.ofNullable(headLine);
+
+        return findHeadLine.orElseThrow(() -> new NotFoundException(String.format("존재하지 않는 Top Menu ID : %s", id)));
     }
 }

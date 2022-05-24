@@ -1,6 +1,8 @@
 package com.gabia.gnbapi.controller;
 
+import com.gabia.gnbapi.dto.request.CreateMiddleMenuRequestDto;
 import com.gabia.gnbapi.dto.request.CreateTopMenuRequestDto;
+import com.gabia.gnbapi.dto.request.ModifyMiddleMenuRequestDto;
 import com.gabia.gnbapi.dto.request.ModifyTopMenuRequestDto;
 import com.gabia.gnbapi.dto.response.HeadLineMenuResponseDto;
 import com.gabia.gnbapi.service.GlobalNavBarService;
@@ -49,6 +51,34 @@ public class GlobalNavBarController {
     @DeleteMapping("/topMenu/{topId}")
     public ResponseEntity<?> removeTopMenu(@PathVariable Long topId) {
         globalNavBarService.removeTopMenu(topId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @ApiOperation(value = "중분류 메뉴 등록")
+    @PostMapping("/topMenu/{topId}/middleMenu") // Admin 권한 필요
+    public ResponseEntity createMiddleMenu(@PathVariable Long topId,
+                                           @RequestBody CreateMiddleMenuRequestDto createMiddleMenuRequestDto) {
+        globalNavBarService.createMiddleMenu(topId, createMiddleMenuRequestDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @ApiOperation(value = "중분류 수정")
+    @PutMapping("/topMenu/{topId}/middleMenu/{middleId}")
+    public ResponseEntity<?> modifyMiddleMenu(@PathVariable Long topId,
+                                              @PathVariable Long middleId,
+                                              @RequestBody ModifyMiddleMenuRequestDto modifyMiddleMenuRequestDto) throws Exception {
+        globalNavBarService.modifyMiddleMenu(topId, middleId, modifyMiddleMenuRequestDto);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @ApiOperation(value = "중분류 삭제")
+    @DeleteMapping("/topMenu/{topId}/middleMenu/{middleId}")
+    public ResponseEntity<?> removeMiddleMenu(@PathVariable Long topId,
+                                              @PathVariable Long middleId) throws Exception {
+        globalNavBarService.removeMiddleMenu(topId, middleId);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
